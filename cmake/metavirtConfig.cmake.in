@@ -1,0 +1,40 @@
+@PACKAGE_INIT@
+
+set_and_check(METAVIRT_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set_and_check(METAVIRT_LIBRARY_DIR "@PACKAGE_LIBRARY_INSTALL_DIR@")
+set_and_check(METAVIRT_BINARY_DIR "@PACKAGE_BINARY_INSTALL_DIR@")
+set_and_check(METAVIRT_CMAKE_DIR "@PACKAGE_CMAKE_INSTALL_DIR@")
+
+macro (check_components comps_list)
+  set(metavirt_FOUND true)
+
+  foreach(component ${comps_list})
+    if(NOT TARGET metavirt::${component} AND NOT TARGET metavirt::${component}Static)
+      set(metavirt_${component}_FOUND false)
+      if(metavirt_FIND_REQUIRED_${component})
+        message(WARNING "Could not find component ${component}")
+        set(metavirt_FOUND false)
+      endif()
+    else()
+      set(metavirt_${component}_FOUND true)
+    endif()
+  endforeach()
+endmacro()
+
+if (metavirt_FIND_COMPONENTS)
+  foreach(component ${metavirt_FIND_COMPONENTS})
+    if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/metavirt{component}Targets.cmake)
+      include(${CMAKE_CURRENT_LIST_DIR}/metavirt{component}Targets.cmake)
+    endif()
+  endforeach()
+  check_components("${metavirt_FIND_COMPONENTS}")
+else()
+  file(GLOB
+    target-file
+    LIST_DIRECTORIES false
+    "${CMAKE_CURRENT_LIST_DIR}/metavirt*Targets.cmake"
+  )
+  foreach(component ${target-file})
+    include(${component})
+  endforeach()
+endif()

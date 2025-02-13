@@ -1,0 +1,22 @@
+@LIT_SITE_CFG_IN_HEADER@
+
+import sys
+
+# LLVM toolchain:
+config.clang_cpp = "@METAVIRT_CLANGCXX_EXEC@"
+config.clang = "@METAVIRT_CLANG_EXEC@"
+config.opt = "@METAVIRT_OPT_EXEC@"
+config.opt_args = "@METAVIRT_OPT_ARGS@"
+config.llc = "@METAVIRT_LLC_EXEC@"
+config.filecheck = "@METAVIRT_FILECHECK_EXEC@"
+
+# Project related:
+config.metavirt_lib_dir = "@METAVIRT_LIBRARY_DIR@"
+config.metavirt_pass_dir = "@METAVIRT_PASS_DIR@"
+
+config.metavirt_script_dir = "@METAVIRT_SCRIPT_DIR@"
+config.metavirt_pass = "$<TARGET_FILE_NAME:metavirt::TransformPass>"
+
+# Let the main config do the real work.
+config.loaded_site_config = True
+lit_config.load_config(config, "@METAVIRT_PROJECT_DIR@/test/lit.cfg")
