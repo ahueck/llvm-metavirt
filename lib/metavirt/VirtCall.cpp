@@ -13,7 +13,7 @@
 namespace virtcall {
 
 std::optional<VirtcallData> virtual_type_for(const llvm::CallBase*) {
+  return {};
 }
 
-}
-
+}  // namespace virtcall

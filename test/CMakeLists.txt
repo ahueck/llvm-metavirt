@@ -27,9 +27,9 @@ function(configure_metavirt_lit_site_cfg input output)
   
   set(METAVIRT_PROJECT_DIR ${PROJECT_SOURCE_DIR})
   set(METAVIRT_LIBRARY_DIR ${CMAKE_BINARY_DIR}/lib)
-  set(METAVIRT_PASS_DIR ${CMAKE_BINARY_DIR}/verifier/pass)
+  set(METAVIRT_PASS_DIR ${CMAKE_BINARY_DIR}/test/verifier/pass)
   
-  set(METAVIRT_SCRIPT_DIR ${CMAKE_BINARY_DIR}/verifier/scripts)
+  set(METAVIRT_SCRIPT_DIR ${CMAKE_BINARY_DIR}/test/verifier/scripts)
 
   metavirt_target_generate_file(${input} ${output})
 endfunction()
