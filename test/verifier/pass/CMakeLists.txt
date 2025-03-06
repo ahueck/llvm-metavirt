@@ -23,4 +23,4 @@ target_include_directories(metavirt_TransformPass ${warning_guard}
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
           ${PROJECT_SOURCE_DIR}/lib/
 )
-
+target_link_libraries(metavirt_TransformPass PRIVATE metavirt_Types)
