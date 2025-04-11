@@ -11,5 +11,7 @@ public:
 };
 
 void foo(Base* base_class) {
+  // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_class_type, name: "Base",
+  // CHECK-NEXT: Index: 3
   base_class->print();
 }

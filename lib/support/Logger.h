@@ -31,7 +31,7 @@
 #define VIRTCALL_MPI_LOGGER 0
 #endif
 
-namespace virtcall::log {
+namespace metavirt::log {
 class LogContext {
  private:
   llvm::Module* context{nullptr};
@@ -67,14 +67,14 @@ inline std::string ditype_str(const llvm::Metadata* type) {
 inline void virtcall_log(const std::string_view msg) {
   llvm::dbgs() << msg;
 }
-}  // namespace virtcall::log
+}  // namespace metavirt::log
 
 #define VIRTCALL_LOG_LEVEL_MSG(LEVEL_NUM, LEVEL, MSG)                                                                 \
   if ((LEVEL_NUM) <= VIRTCALL_LOG_LEVEL) {                                                                            \
     std::string logging_message;                                                                                    \
     llvm::raw_string_ostream rso(logging_message);                                                                  \
     rso << (LEVEL) << VIRTCALL_LOG_BASENAME << ":" << __func__ << ":" << __LINE__ << ":" << MSG << "\n"; /* NOLINT */ \
-    virtcall::log::virtcall_log(rso.str());                                                                             \
+    metavirt::log::virtcall_log(rso.str());                                                                             \
   }
 
 #define VIRTCALL_LOG_LEVEL_MSG_BARE(LEVEL_NUM, LEVEL, MSG) \
@@ -82,7 +82,7 @@ inline void virtcall_log(const std::string_view msg) {
     std::string logging_message;                         \
     llvm::raw_string_ostream rso(logging_message);       \
     rso << (LEVEL) << " " << MSG << "\n"; /* NOLINT */   \
-    virtcall::log::virtcall_log(rso.str());                  \
+    metavirt::log::virtcall_log(rso.str());                  \
   }
 
 #define LOG_TRACE(MSG) VIRTCALL_LOG_LEVEL_MSG_BARE(4, "[Trace]", MSG)

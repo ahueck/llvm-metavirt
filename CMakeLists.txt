@@ -8,6 +8,8 @@ project(
     LANGUAGES CXX C
 )
 
+set(CMAKE_CXX_STANDARD 20)
+
 list(
   APPEND
   CMAKE_MODULE_PATH
@@ -18,8 +20,9 @@ include(metavirtToolchain)
 
 metavirt_target_format(
   format-metavirt-sources "Formats project source files"
-  TARGETS lib/pass/*.cpp
-          lib/pass/*.h
+  TARGETS lib/metavirt/*.cpp
+          lib/metavirt/*.h
+          test/verifier/pass/MetavirtPass.cpp
 )
 
 add_subdirectory(lib)

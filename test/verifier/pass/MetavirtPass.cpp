@@ -6,6 +6,7 @@
 
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/IR/DataLayout.h"
+#include "llvm/IR/DebugInfo.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/InstIterator.h"
 #include "llvm/IR/Instructions.h"
@@ -41,7 +42,7 @@ class LegacyMetavirtPass : public llvm::ModulePass {
  public:
   static char ID;  // NOLINT
 
-  LegacyMetavirtPass() : ModulePass(ID) {};
+  LegacyMetavirtPass() : ModulePass(ID){};
 
   bool runOnModule(llvm::Module& module) override;
 
@@ -62,6 +63,8 @@ llvm::PreservedAnalyses MetavirtPass::run(llvm::Module& module, llvm::ModuleAnal
 }
 
 bool MetavirtPass::runOnModule(llvm::Module& module) {
+  log::LogContext::get().setModule(&module);
+
   const auto changed = llvm::count_if(module.functions(), [&](auto& func) { return runOnFunc(func); }) > 1;
   return changed;
 }
@@ -78,11 +81,28 @@ bool MetavirtPass::runOnFunc(llvm::Function& function) {
 
   for (auto& inst :
        make_filter_range(instructions(function), [](auto const& inst) { return isa<llvm::CallBase>(inst); })) {
-    auto const data = virtcall::virtual_type_for(dyn_cast<CallBase>(&inst));
+    auto* call_base = dyn_cast<CallBase>(&inst);
+    if (call_base->getCalledFunction())
+      continue;
+
+    auto const data = metavirt::vcall_data_for(dyn_cast<CallBase>(&inst));
     if (!data.has_value())
       continue;
 
-    LOG_DEBUG("Got virtcall data");
+    for (const auto ty : data->types)
+      LOG_INFO("Class: " << log::ditype_str(ty));
+
+    if (data->vtable_index.has_value())
+      LOG_INFO("Index: " << *data->vtable_index);
+
+    LOG_INFO("Potential call targets:");
+    for (const auto [c, fs] : data->call_targets) {
+      for (const auto f : fs)
+        LOG_INFO(c->getName() << "::" << f->getName());
+    }
+
+    for (const auto fns = metavirt::fn_names_and_origins(*data); const auto [name, origin] : fns)
+      LOG_INFO("Name: " << name << " Origin: " << origin);
   }
 
   return false;

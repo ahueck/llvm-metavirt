@@ -15,3 +15,9 @@ struct Derived : A, B {
 
   void b() override { a(); }
 };
+
+void foo(Derived* d) {
+  // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Derived",
+  // CHECK-NEXT: Index: 1
+  d->b();
+}

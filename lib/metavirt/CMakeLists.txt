@@ -1,5 +1,9 @@
 set(LIB_SOURCES
   VirtCall.cpp
+  DataflowAnalysis.cpp
+  DITypeExtractor.cpp
+  DIRootType.cpp
+  DIFinder.cpp
 )
 
 add_library(metavirt_Types STATIC

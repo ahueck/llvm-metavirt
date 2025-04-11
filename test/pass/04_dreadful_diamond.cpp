@@ -18,10 +18,16 @@ struct B : Base {
 struct Derived : A, B {};
 
 void test_call(Base *base) {
+  // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Base"
+  // CHECK-NEXT: Index: 2
   base->base();
 }
 
 void test_proxy(Derived *derived) {
-  static_cast<Base*>(static_cast<A*>(derived))->base();
-  static_cast<Base*>(static_cast<B*>(derived))->base();
+  // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Derived",
+  // CHECK-NEXT: Index: 3
+  derived->a();
+  // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Derived",
+  // CHECK-NEXT: Index: 3
+  derived->b();
 }

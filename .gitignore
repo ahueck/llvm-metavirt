@@ -27,7 +27,9 @@
 *.lib
 
 # Build folder
+_build*/
 build*/
+cmake-build-*/
 
 # Compilation Database and others
 compile_commands.json
@@ -47,3 +49,4 @@ test/*/*.o
 test/**/*.log
 test/**/*.yaml
 test/**/*.profraw
+test/.lit_test_times.txt
