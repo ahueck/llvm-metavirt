@@ -13,26 +13,30 @@
 
 namespace metavirt::util {
 
-template <typename Fn>
+template <typename F>
 class ScopeExit {
- private:
-  Fn exit_fn_;
-
  public:
-  explicit ScopeExit(Fn&& exit_fn) : exit_fn_(std::forward<Fn>(exit_fn)) {
+  template <typename Fwd>
+  explicit ScopeExit(Fwd&& exit_fn) : exit_fn{std::forward<Fwd>(exit_fn)} {
   }
 
   ScopeExit(const ScopeExit&)            = delete;
   ScopeExit& operator=(const ScopeExit&) = delete;
 
   ~ScopeExit() {
-    std::invoke(exit_fn_);
+    std::invoke(exit_fn);
   }
+
+ private:
+  F exit_fn;
 };
 
-template <typename Fn>
-ScopeExit<Fn> create_scope_exit(Fn&& exit_fn) {
-  return ScopeExit<Fn>(std::forward<Fn>(exit_fn));
+template <typename F>
+explicit ScopeExit(F&&) -> ScopeExit<std::remove_reference_t<F>>;
+
+template <typename F>
+ScopeExit<F> create_scope_exit(F&& exit_fn) {
+  return ScopeExit{std::forward<F>(exit_fn)};
 }
 
 namespace detail {
