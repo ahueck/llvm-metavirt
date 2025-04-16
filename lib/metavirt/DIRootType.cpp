@@ -30,7 +30,10 @@ std::optional<llvm::DIType*> return_type(const dataflow::ValuePath& path, const 
         assert(types_of_subprog.size() > 0 && "Need the return type of the function");
         auto* return_type = types_of_subprog[0];
         LOG_DEBUG("Found return type " << log::ditype_str(return_type))
-        return return_type;
+        if (return_type)
+          return return_type;
+
+        return {};
       }
 
       LOG_DEBUG("Function has no subProgram to query, trying di_local finder")
