@@ -25,7 +25,7 @@ namespace metavirt::type {
 ///
 /// @return Base type of @p ty
 [[nodiscard]] static auto strip_ty(const llvm::DIType* ty) {
-  while (isa<llvm::DIDerivedType>(ty))
+  while (ty && isa<llvm::DIDerivedType>(ty))
     ty = dyn_cast<llvm::DIDerivedType>(ty)->getBaseType();
 
   return ty;
