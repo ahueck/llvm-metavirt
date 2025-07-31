@@ -30,6 +30,16 @@ struct first_arg<R (C::*)(Arg, Args...) const> {
   using type = Arg;
 };
 
+template <typename C, typename R, typename Arg, typename... Args>
+struct first_arg<R (C::*)(Arg, Args...) noexcept> {
+  using type = Arg;
+};
+
+template <typename C, typename R, typename Arg, typename... Args>
+struct first_arg<R (C::*)(Arg, Args...) const noexcept> {
+  using type = Arg;
+};
+
 template <typename T>
 struct first_arg {
   using type = typename first_arg<decltype(&T::operator())>::type;
