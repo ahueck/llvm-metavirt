@@ -28,8 +28,7 @@ metavirt_target_compile_opts(metavirt_Types)
 
 target_include_directories(
   metavirt_Types
-  PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/>
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/>
 )
 
 set_target_properties(
