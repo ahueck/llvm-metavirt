@@ -153,7 +153,7 @@ static llvm::SmallVector<const llvm::DIType*> derived_tys_for_base(const llvm::D
 
   for (const auto* ty : dbg_finder.types()) {
     if (const auto* class_ty = dyn_cast_or_null<llvm::DICompositeType>(ty); class_ty) {
-      for (const auto* cur_ty = class_ty; cur_ty->getElements().size() >= 1;) {
+      for (const auto* cur_ty = class_ty; cur_ty && cur_ty->getElements().size() >= 1;) {
         const auto* inherit = dyn_cast_or_null<llvm::DIDerivedType>(cur_ty->getElements()[0]);
 
         if (!inherit || inherit->getTag() != llvm::dwarf::DW_TAG_inheritance)
