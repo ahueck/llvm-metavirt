@@ -2,8 +2,10 @@
 
 set_and_check(METAVIRT_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
 set_and_check(METAVIRT_LIBRARY_DIR "@PACKAGE_LIBRARY_INSTALL_DIR@")
-set_and_check(METAVIRT_BINARY_DIR "@PACKAGE_BINARY_INSTALL_DIR@")
 set_and_check(METAVIRT_CMAKE_DIR "@PACKAGE_CMAKE_INSTALL_DIR@")
+
+# currently, an install metavirt does not include any binaries
+# set_and_check(METAVIRT_BINARY_DIR "@PACKAGE_BINARY_INSTALL_DIR@")
 
 macro (check_components comps_list)
   set(metavirt_FOUND true)
