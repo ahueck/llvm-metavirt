@@ -43,7 +43,7 @@ set_target_properties(
 set(CONFIG_NAME metavirtTypes)
 set(TARGETS_EXPORT_NAME ${CONFIG_NAME}Targets)
 
-install(FILES Dimeta.h DimetaData.h DimetaIO.h
+install(FILES VirtCall.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 
