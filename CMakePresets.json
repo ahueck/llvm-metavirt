@@ -54,7 +54,7 @@
         "clang-toolchain"
       ],
       "cacheVariables": {
-        "DIMETA_ENABLE_COVERAGE": "ON",
+        "METAVIRT_ENABLE_COVERAGE": "ON",
         "CMAKE_BUILD_TYPE": "Coverage",
         "CMAKE_C_FLAGS_COVERAGE": "-Og -g --coverage",
         "CMAKE_CXX_FLAGS_COVERAGE": "-Og -g --coverage",
