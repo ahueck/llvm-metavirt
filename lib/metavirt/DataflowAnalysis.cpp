@@ -109,7 +109,7 @@ struct TargetMatcher {
     }
 
     if (llvm::isa<llvm::CallBase>(value)) {
-      const auto* call = dyn_cast<CallInst>(value);
+      const auto* call = dyn_cast<CallBase>(value);
       if (const auto f = call->getCalledFunction(); !f || !f->getName().contains("__dynamic_cast"))
         types_path.emplace_back(path);
 
