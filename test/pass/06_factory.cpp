@@ -3,17 +3,18 @@
 // CHECK-NOT: Error
 
 class Base {
-public:
-  virtual void foo() = 0;
+ public:
+  virtual void foo()   = 0;
   virtual void print() = 0;
 };
 
 class Derived : public Base {
-public:
-  void print() override {}
+ public:
+  void print() override {
+  }
 };
 
-extern Base *factory();
+extern Base* factory();
 
 void foo() {
   Base* base_class = factory();

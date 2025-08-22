@@ -3,15 +3,19 @@
 // CHECK-NOT: Error
 
 class Base {
-public:
-  virtual void foo() {}
-  virtual void print() {}
+ public:
+  virtual void foo() {
+  }
+  virtual void print() {
+  }
 };
 
 class Derived : public Base {
-public:
-  void foo() override {}
-  void print() override {}
+ public:
+  void foo() override {
+  }
+  void print() override {
+  }
 };
 
 Base base;

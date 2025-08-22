@@ -3,11 +3,12 @@
 // CHECK-NOT: Error
 
 class Base {
-public:
-  virtual ~Base() {}
-  virtual void a() = 0;
+ public:
+  virtual ~Base() {
+  }
+  virtual void a()     = 0;
   virtual void print() = 0;
-  virtual void b() = 0;
+  virtual void b()     = 0;
 };
 
 void foo(Base* base_class) {

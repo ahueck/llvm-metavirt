@@ -71,18 +71,18 @@ inline void virtcall_log(const std::string_view msg) {
 
 #define VIRTCALL_LOG_LEVEL_MSG(LEVEL_NUM, LEVEL, MSG)                                                                 \
   if ((LEVEL_NUM) <= VIRTCALL_LOG_LEVEL) {                                                                            \
-    std::string logging_message;                                                                                    \
-    llvm::raw_string_ostream rso(logging_message);                                                                  \
+    std::string logging_message;                                                                                      \
+    llvm::raw_string_ostream rso(logging_message);                                                                    \
     rso << (LEVEL) << VIRTCALL_LOG_BASENAME << ":" << __func__ << ":" << __LINE__ << ":" << MSG << "\n"; /* NOLINT */ \
-    metavirt::log::virtcall_log(rso.str());                                                                             \
+    metavirt::log::virtcall_log(rso.str());                                                                           \
   }
 
 #define VIRTCALL_LOG_LEVEL_MSG_BARE(LEVEL_NUM, LEVEL, MSG) \
   if ((LEVEL_NUM) <= VIRTCALL_LOG_LEVEL) {                 \
-    std::string logging_message;                         \
-    llvm::raw_string_ostream rso(logging_message);       \
-    rso << (LEVEL) << " " << MSG << "\n"; /* NOLINT */   \
-    metavirt::log::virtcall_log(rso.str());                  \
+    std::string logging_message;                           \
+    llvm::raw_string_ostream rso(logging_message);         \
+    rso << (LEVEL) << " " << MSG << "\n"; /* NOLINT */     \
+    metavirt::log::virtcall_log(rso.str());                \
   }
 
 #define LOG_TRACE(MSG) VIRTCALL_LOG_LEVEL_MSG_BARE(4, "[Trace]", MSG)

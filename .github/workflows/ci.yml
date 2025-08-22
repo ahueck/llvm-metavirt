@@ -11,7 +11,7 @@ env:
 
 jobs:
   format-check:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v5
@@ -22,7 +22,7 @@ jobs:
             -type f \
             -a \( -name "*.c" -o -name "*.cpp" -o -name "*.h" \) \
             -print0 \
-            | xargs -0 clang-format-14 -i
+            | xargs -0 clang-format-18 -i
 
       - name: Format check
         run: |
@@ -57,7 +57,7 @@ jobs:
         if: ${{ matrix.llvm-version > 18 }}
         run: |
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          echo "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-19 main" | sudo tee /etc/apt/sources.list.d/llvm-19.list
+          echo "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-${{ matrix.llvm-version }} main" | sudo tee /etc/apt/sources.list.d/llvm-${{ matrix.llvm-version }}.list
 
       - name: Update apt
         run: sudo apt-get update

@@ -2,20 +2,25 @@
 
 struct Base {
   virtual ~Base() = default;
-  virtual void base() {}
+  virtual void base() {
+  }
 };
 
 struct A : virtual Base {
-  virtual void a() {}
-  void base() override {}
+  virtual void a() {
+  }
+  void base() override {
+  }
 };
 
 struct B : virtual Base {
-  virtual void b() {}
+  virtual void b() {
+  }
 };
 
 struct Derived : A, B {
-  virtual void derived() {}
+  virtual void derived() {
+  }
 };
 
 Base base;
@@ -23,7 +28,7 @@ A a;
 B b;
 Derived derived;
 
-void test_call(Base *base) {
+void test_call(Base* base) {
   // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "B",
   // CHECK-NEXT: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Derived",
   // CHECK-NEXT: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "A",

@@ -3,17 +3,23 @@
 // CHECK-NOT: Error
 
 struct A {
-  virtual void a() {}
+  virtual void a() {
+  }
 };
 
 struct B {
-  virtual void b() {}
+  virtual void b() {
+  }
 };
 
 struct Derived : A, B {
-  void a() override { b(); }
+  void a() override {
+    b();
+  }
 
-  void b() override { a(); }
+  void b() override {
+    a();
+  }
 };
 
 void foo(Derived* d) {
