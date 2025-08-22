@@ -28,8 +28,7 @@ metavirt_target_compile_opts(metavirt_Types)
 
 target_include_directories(
   metavirt_Types
-  PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/>
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/>
 )
 
 set_target_properties(
@@ -43,7 +42,7 @@ set_target_properties(
 set(CONFIG_NAME metavirtTypes)
 set(TARGETS_EXPORT_NAME ${CONFIG_NAME}Targets)
 
-install(FILES Dimeta.h DimetaData.h DimetaIO.h
+install(FILES VirtCall.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 
