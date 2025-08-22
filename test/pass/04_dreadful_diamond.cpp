@@ -4,26 +4,29 @@
 
 struct Base {
   virtual ~Base() = default;
-  virtual void base() {}
+  virtual void base() {
+  }
 };
 
 struct A : Base {
-  virtual void a() {}
+  virtual void a() {
+  }
 };
 
 struct B : Base {
-  virtual void b() {}
+  virtual void b() {
+  }
 };
 
 struct Derived : A, B {};
 
-void test_call(Base *base) {
+void test_call(Base* base) {
   // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Base"
   // CHECK-NEXT: Index: 2
   base->base();
 }
 
-void test_proxy(Derived *derived) {
+void test_proxy(Derived* derived) {
   // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Derived",
   // CHECK-NEXT: Index: 3
   derived->a();

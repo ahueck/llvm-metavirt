@@ -30,6 +30,8 @@ mark_as_advanced(METAVIRT_TEST_CONFIGURE_IDE)
 option(METAVIRT_CONFIG_DIR_IS_SHARE "Install to \"share/cmake/\" instead of \"lib/cmake/\"" OFF)
 mark_as_advanced(METAVIRT_CONFIG_DIR_IS_SHARE)
 
+option(METAVIRT_ENABLE_COVERAGE "Enable coverage targets" OFF)
+
 set(warning_guard "")
 if(NOT PROJECT_IS_TOP_LEVEL)
   option(
@@ -47,7 +49,9 @@ endif()
 include(modules/metavirt-llvm)
 include(modules/metavirt-format)
 include(modules/metavirt-target-util)
-include(modules/metavirt-coverage-lcov)
+if(METAVIRT_ENABLE_COVERAGE)
+  include(modules/metavirt-coverage-lcov)
+endif()
 
 metavirt_find_llvm_progs(METAVIRT_CLANG_EXEC "clang-${LLVM_VERSION_MAJOR};clang" DEFAULT_EXE "clang")
 metavirt_find_llvm_progs(METAVIRT_CLANGCXX_EXEC "clang++-${LLVM_VERSION_MAJOR};clang++" DEFAULT_EXE "clang++")
