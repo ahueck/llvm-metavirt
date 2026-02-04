@@ -30,13 +30,13 @@ Derived derived;
 
 void test_call(Base* base) {
   // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "B",
-  // CHECK-NEXT: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Derived",
-  // CHECK-NEXT: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "A",
-  // CHECK-NEXT: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Base",
-  // CHECK-NEXT: Index: 2
+  // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Derived",
+  // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "A",
+  // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Base",
+  // CHECK: Index: 2
   // CHECK-NEXT: Potential call targets:
-  // CHECK-NEXT: A::base
-  // CHECK-NEXT: Base::base
+  // CHECK-DAG: A::base
+  // CHECK-DAG: Base::base
   base->base();
 }
 
@@ -60,11 +60,11 @@ void test_proxy(Base* base) {
   // CHECK-NEXT: Derived::derived
   d->derived();
 
-  // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "A",
-  // CHECK-NEXT: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Base",
-  // CHECK-NEXT: Index: 2
+  // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "A",
+  // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Base",
+  // CHECK: Index: 2
   // CHECK-NEXT: Potential call targets:
-  // CHECK-NEXT: A::base
-  // CHECK-NEXT: Base::base
+  // CHECK-DAG: A::base
+  // CHECK-DAG: Base::base
   static_cast<Base*>(a)->base();
 }

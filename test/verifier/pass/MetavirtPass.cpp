@@ -42,7 +42,7 @@ class LegacyMetavirtPass : public llvm::ModulePass {
  public:
   static char ID;  // NOLINT
 
-  LegacyMetavirtPass() : ModulePass(ID){};
+  LegacyMetavirtPass() : ModulePass(ID) {};
 
   bool runOnModule(llvm::Module& module) override;
 
