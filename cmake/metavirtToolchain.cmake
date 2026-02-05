@@ -31,6 +31,8 @@ option(METAVIRT_CONFIG_DIR_IS_SHARE "Install to \"share/cmake/\" instead of \"li
 mark_as_advanced(METAVIRT_CONFIG_DIR_IS_SHARE)
 
 option(METAVIRT_ENABLE_COVERAGE "Enable coverage targets" OFF)
+set(METAVIRT_LOG_LEVEL 0 CACHE STRING "Granularity of logger. 3 is most verbose, 0 is least.")
+
 
 set(warning_guard "")
 if(NOT PROJECT_IS_TOP_LEVEL)
