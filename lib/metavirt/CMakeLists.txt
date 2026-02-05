@@ -21,7 +21,7 @@ target_include_directories(metavirt_Types SYSTEM PRIVATE ${LLVM_INCLUDE_DIRS})
 target_compile_definitions(metavirt_Types
         PRIVATE
         LLVM_VERSION_MAJOR=${LLVM_VERSION_MAJOR}
-        METAVIRT_LOG_LEVEL=${METAVIRT_LOG_LEVEL}
+        VIRTCALL_LOG_LEVEL=${METAVIRT_LOG_LEVEL}
         )
 
 metavirt_target_compile_opts(metavirt_Types)
