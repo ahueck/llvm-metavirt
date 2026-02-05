@@ -10,7 +10,7 @@ function(metavirt_target_define_file_basename targetname)
     get_filename_component(basename "${sourcefile}" NAME)
 
     list(APPEND compile_defs
-      "METAVIRT_LOG_BASENAME=\"${basename}\""
+      "VIRTCALL_LOG_BASENAME=\"${basename}\""
     )
 
     set_source_files_properties("${sourcefile}"
