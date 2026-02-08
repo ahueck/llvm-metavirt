@@ -29,7 +29,7 @@ B b;
 Derived derived;
 
 void test_call(Base* base) {
-  // CHECK: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "B",
+  // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "B",
   // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Derived",
   // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "A",
   // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Base",
@@ -59,9 +59,8 @@ void test_proxy(Base* base) {
   // CHECK-NEXT: Potential call targets:
   // CHECK-NEXT: Derived::derived
   d->derived();
-
-  // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "A",
-  // CHECK-DAG: Class: {{.*}} = distinct !DICompositeType(tag: DW_TAG_structure_type, name: "Base",
+  // CHECK-DAG: Class: {{.*}} !DICompositeType(tag: DW_TAG_structure_type, name: "A",
+  // CHECK-DAG: Class: {{.*}} !DICompositeType(tag: DW_TAG_structure_type, name: "Base",
   // CHECK: Index: 2
   // CHECK-NEXT: Potential call targets:
   // CHECK-DAG: A::base

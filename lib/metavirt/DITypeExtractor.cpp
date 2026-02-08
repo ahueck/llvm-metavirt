@@ -12,6 +12,7 @@
 #include "support/Logger.h"
 
 #include "llvm/ADT/STLExtras.h"
+#include "llvm/ADT/SmallPtrSet.h"
 #include "llvm/BinaryFormat/Dwarf.h"
 #include "llvm/IR/Instructions.h"
 
@@ -149,27 +150,70 @@ static std::optional<std::pair<const llvm::DIType*, const llvm::DIType*>> resolv
 /// @return Set of all derived classes of class @p base_ty
 static llvm::SmallVector<const llvm::DIType*> derived_tys_for_base(const llvm::DIType* base_ty,
                                                                    const llvm::DebugInfoFinder& dbg_finder) {
-  llvm::SmallVector<const llvm::DIType*> r{};
+  llvm::SmallVector<const llvm::DIType*> derived_classes{};
 
-  for (const auto* ty : dbg_finder.types()) {
-    if (const auto* class_ty = dyn_cast_or_null<llvm::DICompositeType>(ty); class_ty) {
-      for (const auto* cur_ty = class_ty; cur_ty && cur_ty->getElements().size() >= 1;) {
-        const auto* inherit = dyn_cast_or_null<llvm::DIDerivedType>(cur_ty->getElements()[0]);
+  auto resolve_through_typedefs = [](const llvm::DIType* type) -> const llvm::DICompositeType* {
+    while (type) {
+      if (const auto* composite = dyn_cast<llvm::DICompositeType>(type)) {
+        return composite;
+      }
+      const auto* derived = dyn_cast<llvm::DIDerivedType>(type);
+      if (!derived || derived->getTag() != llvm::dwarf::DW_TAG_typedef) {
+        break;
+      }
+      type = derived->getBaseType();
+    }
+    return nullptr;
+  };
 
-        if (!inherit || inherit->getTag() != llvm::dwarf::DW_TAG_inheritance)
-          break;
+  // Returns true if start_node inherits from target_base:
+  const auto has_inheritance_relationship = [&](const llvm::DICompositeType* start_node) -> bool {
+    llvm::SmallVector<const llvm::DICompositeType*, 8> worklist;
+    llvm::SmallPtrSet<const llvm::DICompositeType*, 8> visited;
 
-        if (inherit->getBaseType() == base_ty) {
-          r.push_back(class_ty);
-          break;
+    worklist.push_back(start_node);
+    visited.insert(start_node);
+
+    while (!worklist.empty()) {
+      const auto* curr = worklist.pop_back_val();
+
+      for (const auto* element : curr->getElements()) {
+        const auto* inheritance = dyn_cast_or_null<llvm::DIDerivedType>(element);
+
+        if (!inheritance || inheritance->getTag() != llvm::dwarf::DW_TAG_inheritance) {
+          continue;
         }
 
-        cur_ty = dyn_cast_or_null<llvm::DICompositeType>(inherit->getBaseType());
+        // Could call this instead, but keep it to typedefs for now: strip_ty(inheritance->getBaseType());
+        const auto* base_part = resolve_through_typedefs(inheritance->getBaseType());
+
+        // Found the target base?
+        if (base_part == base_ty) {
+          return true;
+        }
+        // Otherwise, add the parent to the worklist to continue searching up.
+        if (const auto* next = dyn_cast_or_null<llvm::DICompositeType>(base_part)) {
+          if (visited.insert(next).second) {
+            worklist.push_back(next);
+          }
+        }
       }
+    }
+    return false;
+  };
+
+  for (const auto* ty : dbg_finder.types()) {
+    const auto* class_ty = dyn_cast_or_null<llvm::DICompositeType>(ty);
+    if (!class_ty || class_ty == base_ty) {
+      continue;
+    }
+
+    if (has_inheritance_relationship(class_ty)) {
+      derived_classes.push_back(class_ty);
     }
   }
 
-  return r;
+  return derived_classes;
 }
 
 /// Attempts to resolve the root type of the given value path.
