@@ -29,6 +29,7 @@ metavirt_target_compile_opts(metavirt_Types)
 target_include_directories(
   metavirt_Types
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/>
+  $<INSTALL_INTERFACE:include>
 )
 
 set_target_properties(
