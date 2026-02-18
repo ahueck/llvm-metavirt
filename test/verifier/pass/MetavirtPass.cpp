@@ -100,6 +100,7 @@ bool MetavirtPass::runOnFunc(llvm::Function& function) {
       for (const auto f : fs)
         LOG_INFO(c->getName() << "::" << f->getName());
     }
+    LOG_INFO("------------------------");
 
     for (const auto fns = metavirt::fn_names_and_origins(*data); const auto [name, origin] : fns)
       LOG_INFO("Name: " << name << " Origin: " << origin);

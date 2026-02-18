@@ -39,7 +39,6 @@ set_target_properties(
   EXPORT_NAME "Types"
 )
 
-
 set(CONFIG_NAME metavirtTypes)
 set(TARGETS_EXPORT_NAME ${CONFIG_NAME}Targets)
 
