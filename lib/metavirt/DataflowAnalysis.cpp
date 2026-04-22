@@ -1,6 +1,6 @@
 #include "metavirt/DefUseAnalysis.h"
 #include "metavirt/ValuePath.h"
-#include "support/Logger.h"
+#include "metavirt/support/Logger.h"
 
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/ADT/TinyPtrVector.h"
