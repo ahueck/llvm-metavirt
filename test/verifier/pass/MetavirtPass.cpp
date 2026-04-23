@@ -20,7 +20,7 @@
 
 #include <cstdlib>
 #include <metavirt/VirtCall.h>
-#include <support/Logger.h>
+#include <metavirt/support/Logger.h>
 
 using namespace llvm;
 
