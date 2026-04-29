@@ -62,7 +62,10 @@ static const llvm::CallBase* locate_dyn_cast(const dataflow::ValuePath& path) {
 /// @return The offset of the upcast or `std::nullopt` if no upcast could be detected
 static std::optional<int64_t> extract_upcast(const dataflow::ValuePath& path) {
   // TODO(laurin): Rewrite using patch matchers once those work well enough
-  for (const auto [i, inst] : enumerate(path.path_to_value)) {
+  for (const auto& item : enumerate(path.path_to_value)) {
+    // Note: we need to use this instead of structured bindings to be compatible with Clang Versions < 16
+    auto i    = item.index();
+    auto inst = item.value();
     if (const auto* cast = dyn_cast_or_null<llvm::CallBase>(inst); !cast || !is_dyn_cast(cast))
       continue;
 
